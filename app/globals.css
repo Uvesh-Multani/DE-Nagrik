@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 39 30% 98%;
+    --foreground: 20 40% 20%;
+    --card: 39 30% 99%;
+    --card-foreground: 20 40% 20%;
+    --popover: 39 30% 99%;
+    --popover-foreground: 20 40% 20%;
+    --primary: 20 60% 40%;
+    --primary-foreground: 39 30% 98%;
+    --secondary: 39 20% 90%;
+    --secondary-foreground: 20 40% 20%;
+    --muted: 39 20% 95%;
+    --muted-foreground: 20 30% 40%;
+    --accent: 20 30% 90%;
+    --accent-foreground: 20 60% 40%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 39 30% 98%;
+    --border: 20 20% 90%;
+    --input: 20 20% 90%;
+    --ring: 20 60% 40%;
+    --radius: 0.5rem;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.india-tricolor {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-white to-green-600;
+}
+
+.india-saffron {
+  @apply text-orange-500;
+}
+
+.india-green {
+  @apply text-green-600;
+}
+
