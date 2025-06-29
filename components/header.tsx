@@ -46,8 +46,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 fixed top-0 inset-x-0 z-40 shadow-sm">
-      <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+    <header className="bg-white shadow-sm">
+      <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
         <Link href="/" className="flex items-center md:px-14">
         <div className="relative h-12 w-12 mr-4">
@@ -57,7 +57,7 @@ export default function Header() {
           Nagrik
         </h1>
       </Link>
-      <div className="hidden md:flex items-center space-x-1 overflow-x-auto scrollbar-thin whitespace-nowrap">
+      <div className="hidden md:flex items-center space-x-1">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -133,7 +133,7 @@ export default function Header() {
           </div>
         </div>
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 space-y-1">
+          <div className="md:hidden mt-4">
             {navigation.map((item) => (
               <Link
                 key={item.name}
