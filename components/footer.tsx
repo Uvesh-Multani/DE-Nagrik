@@ -20,6 +20,8 @@ export default function Footer() {
 
               <li><Link href="/faq" className="text-sm text-gray-600 hover:text-primary">FAQ</Link></li>
               <li><Link href="/about" className="text-sm text-gray-600 hover:text-primary">About Us</Link></li>
+              <li><Link href="/login" className="text-sm text-gray-600 hover:text-primary">Login</Link></li>
+              <li><Link href="/signup" className="text-sm text-gray-600 hover:text-primary">Sign Up</Link></li>
             </ul>
           </div>
           <div>
