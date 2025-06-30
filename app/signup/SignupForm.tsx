@@ -120,7 +120,7 @@ export default function SignupForm() {
             type="text"
             value={countryCode}
             onChange={e => setCountryCode(e.target.value)}
-            className="w-20 px-3 py-2 border rounded-l"
+            className="w-16 px-3 py-2 border rounded-l"
           />
           <input
             type="tel"
