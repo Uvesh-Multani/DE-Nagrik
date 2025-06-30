@@ -11,16 +11,10 @@ export default function SignupForm() {
   };
 
   // Validation helpers
+  // Validate 10-digit local phone number (country code handled separately)
   const validatePhone = (value: string) => {
-    /*
-      Requirements:
-      1. Starts with a '+' followed by country code digits (1-3 digits).
-      2. Exactly 10 additional digits for the local number.
-      3. No other characters allowed.
-      Example valid numbers: +19999999999, +919876543210
-    */
-    const phoneRegex = /^\+\d{1,3}\d{10}$/;
-    return phoneRegex.test(value);
+    const digitsRegex = /^\d{10}$/; // exactly 10 numeric digits
+    return digitsRegex.test(value);
   };
 
   const validatePassword = (value: string) => {
@@ -42,6 +36,7 @@ export default function SignupForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+91");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -83,7 +78,7 @@ export default function SignupForm() {
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, password }),
+        body: JSON.stringify({ name, email, phone: `${countryCode}${phone}`, password }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -120,16 +115,24 @@ export default function SignupForm() {
           required
         />
         {emailTouched && !emailValid && <div className="text-red-500">Please enter a valid email address.</div>}
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={e => setPhone(e.target.value)}
-          onBlur={() => setPhoneTouched(true)}
-          className={`w-full px-3 py-2 border rounded ${phoneTouched && !phoneValid ? 'border-red-500' : ''}`}
-          required
-        />
-        {phoneTouched && !phoneValid && <div className="text-red-500">Invalid phone number. Please use the format +1234567890.</div>}
+        <div className="flex">
+          <input
+            type="text"
+            value={countryCode}
+            onChange={e => setCountryCode(e.target.value)}
+            className="w-20 px-3 py-2 border rounded-l"
+          />
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+            onBlur={() => setPhoneTouched(true)}
+            className={`flex-1 px-3 py-2 border-t border-b border-r rounded-r ${phoneTouched && !phoneValid ? 'border-red-500' : ''}`}
+            required
+          />
+        </div>
+        {phoneTouched && !phoneValid && <div className="text-red-500">Invalid phone number. It should contain exactly 10 digits.</div>}
         <div>
           <div className="relative">
             <input
@@ -137,7 +140,7 @@ export default function SignupForm() {
               placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              onBlur={() => setPasswordTouched(true)}
+              onBlur={() => { setPasswordTouched(true); setPasswordFocused(false); }}
               onFocus={() => setPasswordFocused(true)}
               className={`w-full px-3 py-2 border rounded ${passwordTouched && !passwordValid ? 'border-red-500' : ''}`}
               required
@@ -150,8 +153,8 @@ export default function SignupForm() {
               {showPassword ? 'Hide' : 'Show'}
             </button>
           </div>
-          {passwordFocused && (
-            <div className={`${passwordTouched && !passwordValid ? 'text-red-500' : 'text-gray-600'}`}>
+          {(!passwordValid && (passwordFocused || passwordTouched)) && (
+            <div className="text-red-500">
               Password must be at least 8 characters, contain at least one uppercase letter, one digit, and one special character.
             </div>
           )}

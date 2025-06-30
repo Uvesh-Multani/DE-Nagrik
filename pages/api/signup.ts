@@ -6,8 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const { name, email, phone, password } = req.body;
+  if (!name || !email || !phone || !password) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
   try {
@@ -19,9 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(409).json({ message: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = { name, email, password: hashedPassword };
+    const user = { name, email, phone, password: hashedPassword };
     await users.insertOne(user);
-    return res.status(201).json({ name, email });
+    return res.status(201).json({ name, email, phone });
   } catch {
     return res.status(500).json({ message: 'Internal server error' });
   }
